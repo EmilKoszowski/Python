@@ -1,0 +1,130 @@
+from random import randint
+
+postacie = [{"imie":"Golem", "hp":500, "mana":50, "atak_min":10,"atak_max":15, "uzdrowienie":20}, {"imie":"Rycerz","hp":300,"mana":50,"atak_min":25,"atak_max":30, "uzdrowienie":15}, {"imie":"Sigma", "hp":400, "mana":50, "atak_min":20,"atak_max":25, "uzdrowienie":20}]
+
+przeciwnicy = [{"imie":"Czarnoksieznik", "hp":100, "atak_min":10,"atak_max":15}, {"imie":"Wiedzma","hp":110,"atak_min":15,"atak_max":20}, {"imie":"Ninja", "hp":180, "atak_min":20,"atak_max":30}, {"imie":"Mini Pekka", "hp":120, "atak_min":40,"atak_max":50}, {"imie":"Kuzyn Goblina", "hp":400, "atak_min":10,"atak_max":15}]
+
+
+def atak(obrazenia, koszt):
+    print(f"Atakujesz przeciwnika zadajac mu {obrazenia} obrazen")
+    postac["mana"] -= koszt
+    opp["hp"] -= obrazenia
+
+
+
+def Kasyno(x):
+    los = randint(0,1)
+    if los == 0:
+        print("Brawo! Wygrales dodatkowa mane")
+        postac["mana"] += x
+    
+    else:
+        print("Niestety przegrales")
+        postac["mana"]-=x 
+
+
+x = ''
+while x!='A' and x!='B' and x!='C':
+    print("Wybierz postac: A - Golem, B - rycerz, C - sigma")
+    x = input("postac: ")
+    if (x=='A'):
+        postac = postacie[0]
+    
+    elif (x=='B'):
+        postac = postacie[1]
+    
+    elif (x=='C'):
+        postac = postacie[2]
+
+    else:
+        print("Niepoprawny wybor")
+
+zabici_przeciwnicy = 0
+czy_atak_blokowany = 0
+
+for opp in przeciwnicy:
+    if zabici_przeciwnicy%2==0:
+        print("Czy chcesz isc do kasyna zagrac o dodatkowa mane? A - tak inne - nie")
+        x = input("wybor: ")
+        if (x=='A'):
+            print("O ile chcesz zagrac?")
+            x = postac["mana"] + 1
+            while (x>postac["mana"]):
+                x = int(input("wprowadz liczbe: "))
+                if (x>postac["mana"]):
+                    print("Nie stac cie, wprowadz inna liczbe")
+            Kasyno(x)
+
+    while postac["hp"]>0:
+        print("Twoja postac:")
+        print(postac)
+        print("Twoj przeciwnik:")
+        print(opp)
+        x = ' '
+        opcje = 'ABCDE'
+
+
+        while x not in opcje: 
+            print("Wybierz ruch: A - zwykły atak B - super atak C - doladuj mane D - uzdrowienie E - zablokuj atak przeciwnika")
+            x = input("wybor: ")
+
+            if (x=='A'):
+                dmg = randint(postac["atak_min"],postac["atak_max"])
+                atak(dmg, 0)
+
+            elif (x=='B'):
+                dmg = randint(2*(postac["atak_min"]),2*(postac["atak_max"]))
+                if (postac["mana"]<10):
+                    print("Nie stac cie, wybierz inny atak biedaku")
+                    x = ' '
+                else:
+                    atak(dmg, 10)
+
+            elif (x=='C'):
+                postac["mana"] += 5
+                print("Doladowano mane o 5 punktow")
+                
+            elif (x=='D'):
+                if (postac["mana"]<10):
+                    print("Nie stac cie, wybierz inna opcje biedaku")
+                    x = ' '
+                else:
+                    postac["mana"]-=10
+                    postac["hp"]+=postac["uzdrowienie"]
+            
+            elif (x=='E'):
+                if (postac["mana"]<10):
+                    print("Nie stac cie, wybierz inna opcje biedaku")
+                    x = ' '
+                else:
+                    postac["mana"]-=10
+                    czy_atak_blokowany = 1
+                    print("Atak przeciwnika zablokowany")
+
+
+            else:
+                print("Niepoprawny wybor")
+
+        if (opp["hp"]<=0):
+            name = opp["imie"]
+            print(f"Pokonales zloczynce! {name} nie zyje")
+            zabici_przeciwnicy+=1
+            break
+        if (czy_atak_blokowany==1):
+            czy_atak_blokowany = 0
+            continue
+
+
+        opp_dmg = randint(opp["atak_min"], opp["atak_max"])
+        postac["hp"] -= opp_dmg
+        print(f"Przeciwnik zaatakowal cie zadajac {opp_dmg} obrazen")
+
+    if (postac["hp"]<=0):
+        print("Nie zyjesz")
+        break
+
+if (zabici_przeciwnicy==5):
+    print("Brawo! Przeszedles cala gre!")
+else:
+    print(f"Zabito {zabici_przeciwnicy} przeciwnikow")
+    
