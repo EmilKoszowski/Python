@@ -126,7 +126,7 @@ for opp in przeciwnicy:
         Emil()
 
     if zabici_przeciwnicy==2:
-        Emil()
+        Pies()
 
     if zabici_przeciwnicy==3:
         Wedrowiec()
