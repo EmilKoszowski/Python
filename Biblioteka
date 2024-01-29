@@ -1,0 +1,47 @@
+biblioteka_ksiazek = {
+    1: {"Tytuł": "Wiedźmin", "Autor": "Andrzej Sapkowski", "Strony": 320},
+    2: {"Tytuł": "1984", "Autor": "George Orwell", "Strony": 288},
+    3: {"Tytuł": "Harry Potter i Kamień Filozoficzny", "Autor": "J.K. Rowling", "Strony": 336}
+}
+
+def pokaz_menu():
+    print("\nMenu:")
+    print("1. Pokaż książki")
+    print("2. Dodaj nową książkę")
+    print("3. Edytuj informacje o książce")
+    print("4. Usuń książkę")
+    print("5. Wyjście")
+
+def main():
+    while True:
+        pokaz_menu()
+        wybor = input("Wybierz opcję (1-5): ")
+
+        if wybor == "1":
+            pokaz_ksiazki(biblioteka_ksiazek)
+        elif wybor == "2":
+            dodaj_ksiazke(
+                biblioteka_ksiazek,
+                input("Podaj tytuł: "),
+                input("Podaj autora: "),
+                int(input("Podaj ilość stron: "))
+            )
+        elif wybor == "3":
+            indeks = int(input("Podaj indeks książki do edycji: "))
+            edytuj_informacje(
+                biblioteka_ksiazek,
+                indeks,
+                input("Nowy tytuł (jeśli nie zmieniać, zostaw puste): "),
+                input("Nowy autor (jeśli nie zmieniać, zostaw puste): "),
+                int(input("Nowa ilość stron (jeśli nie zmieniać, zostaw puste): "))
+            )
+        elif wybor == "4":
+            indeks = int(input("Podaj indeks książki do usunięcia: "))
+            usun_ksiazke(biblioteka_ksiazek, indeks)
+        elif wybor == "5":
+            break
+        else:
+            print("Nieprawidłowy wybór. Spróbuj ponownie.")
+
+if __name__ == "__main__":
+    main()
