@@ -1,0 +1,28 @@
+import random
+
+class Element:
+    def __init__(self, name, symbol, atomic_number):
+        self.name = name
+        self.symbol = symbol
+        self.atomic_number = atomic_number
+
+    def display_info(self):
+        print(f"Name: {self.name}, Symbol: {self.symbol}, Atomic Number: {self.atomic_number}")
+
+# Lista przykładowych pierwiastków
+elements_data = [
+    {"name": "Hydrogen", "symbol": "H", "atomic_number": 1},
+    {"name": "Helium", "symbol": "He", "atomic_number": 2},
+    {"name": "Carbon", "symbol": "C", "atomic_number": 6},
+    {"name": "Oxygen", "symbol": "O", "atomic_number": 8},
+    {"name": "Gold", "symbol": "Au", "atomic_number": 79}
+]
+
+# Tworzenie obiektów klasy Element
+elements = [Element(**data) for data in elements_data]
+
+# Wypisanie trzech najważniejszych informacji o pięciu losowych pierwiastkach
+for _ in range(5):
+    random_element = random.choice(elements)
+    random_element.display_info()
+    print()
