@@ -1,0 +1,301 @@
+import uuid
+import random
+# -----------------------------------------------------
+biblioteka = [] # <---
+
+def dodaj_testowe_slowniki(lst:biblioteka) -> None:
+    ksiazka = {
+        "id":uuid.uuid4(),
+        "tytul":"TEST",
+        "cena": random.randint(30,100),
+        "liczba_stron": random.randint(100,300)
+    }
+    biblioteka.append(ksiazka)
+
+# -----------------------------------------------------
+dodaj_testowe_slowniki(biblioteka)
+dodaj_testowe_slowniki(biblioteka)
+dodaj_testowe_slowniki(biblioteka)
+#------------ biblioteka
+
+
+
+
+from biblioteka import biblioteka 
+import operacje_na_bibliotece
+import os
+
+def main() -> None:
+    while True:
+        operacje_na_bibliotece.legenda()
+        inp = int(input("--->\t"))
+        os.system("cls") 
+        if inp == 0:
+            os.system("clear")
+            z = "program zakonczyl dzialanie"
+            print("\n"*5)
+            print(f"\t {z.upper()}")
+            print("\n"*5)
+            break
+        elif inp == 1:
+            operacje_na_bibliotece.inf_biblioteka(biblioteka)
+        elif inp == 2:
+            operacje_na_bibliotece.usun_ksiazke(biblioteka)
+        elif inp == 3:
+            operacje_na_bibliotece.dodaj_ksiazke(biblioteka)
+        elif inp == 4:
+            operacje_na_bibliotece.edytuj_dane_ksiazki(biblioteka)
+        else:
+            print("Nie ma takiej operacji aaaa") 
+
+if __name__ == "__main__":
+    main()
+
+
+#-------------------- main
+import uuid
+
+# -----------------------------------------------------
+
+def legenda() -> None:
+    print("==="*20)
+    print("0 - wyjdz z programu")
+    print("1 - inf o asortymencie")
+    print("2 - usun ksiazke ")
+    print("3 - dodaj ksiazke")
+    print("4 - edytuj ksiazke")
+    print("==="*20)
+
+# -----------------------------------------------------
+
+def inf_ksiazka(dc:dict) -> None:
+    for k,v in dc.items():
+        print(f"{k} --- {v}")
+
+def inf_biblioteka(lst:list) -> None:
+    print(f"liczba ksiazek --- {len(lst)}")
+    for ksizka in lst:
+        print("==="*20)
+        inf_ksiazka(ksizka)
+        print("==="*20)
+
+# -----------------------------------------------------
+def czy_ksiazka_istnieje(lst: list, id_user_inp: str) -> bool:
+    for i in range(len(lst)):
+        if str(lst[i]["id"]) == id_user_inp:
+            return True
+    return False
+
+def inex_instniejacej_kisiazki(lst: list, id_user_inp: str) -> int:
+    for i in range(len(lst)):
+        if str(lst[i]["id"]) == id_user_inp:
+            return i
+    return -1  
+
+def usun_ksiazke(lst: list) -> None:
+    inf_biblioteka(lst)
+    print("Enter - zakoncz")
+    inp = input("wklej id książki: ")
+    if czy_ksiazka_istnieje(lst, inp):
+        index = inex_instniejacej_kisiazki(lst, inp)
+        if index != -1:
+            lst.pop(index)
+            print("ksiazka usunieta")
+        else:
+            print("ksiązka nie istnieje.")
+    else:
+        print("nie ma książki o takim ID")
+# -----------------------------------------------------
+
+def dodaj_tytul()-> str:
+    print("Text !!!")
+    inp = input("podaj tytul: ")
+    return inp
+
+def podaj_cene()-> float:
+    print("Liczba !!!")
+    inp = float(input("Cena: "))  
+    return inp
+
+def podaj_liczbe_stron()-> int:
+    print("Liczba calkowita - int !!!")
+    inp = int(input("liczba stron: "))
+    return inp
+
+def dodaj_ksiazke(lst: list)-> None:
+    ksiazka = {
+        "id":uuid.uuid4(),
+        "tytul":dodaj_tytul(),
+        "cena": podaj_cene(),
+        "liczba_stron": podaj_liczbe_stron()
+    }
+    lst.append(ksiazka)
+
+def edytuj_dane_ksiazki(lst:list) -> None:
+    inf_biblioteka(lst)
+    print("Enter - zakoncz")
+    inp = input("Wklej ID książki: ")
+    if czy_ksiazka_istnieje(lst, inp):
+        index_ksiazki = inex_instniejacej_kisiazki(lst, inp)
+        lst[index_ksiazki]["tytul"] = dodaj_tytul()
+        lst[index_ksiazki]["cena"] = podaj_cene()
+        lst[index_ksiazki]["liczba_stron"] =podaj_liczbe_stron()
+    else:
+        print("nie ma książki o takim ID")
+
+#----------------- operacje na bibliotece 
+zad 2 
+uczen = {
+    'nazwa': 'Balladyna',
+    'Autor': 'XYZ',
+    'liczba stron':126,
+    'matematyka':[1,1,2,3,4,5],
+    'angielski':[2,3,4,5,6,1],
+    'polski':[5,3,2,10]
+}
+
+def inf(dc):
+    for k,v in dc.items():
+        print(f"{k}:  {v}")
+
+
+
+def edycja(dc):
+    print("wprowadz klucz jaki chcesz edytować")
+    print("==="*25)
+    inf(dc)
+    print("==="*25)
+    inp = input()
+    dc[inp] = input("Podaj nowe dane")
+
+
+def edycja_listy(lst):
+    while True:
+        print(lst)
+        print('a - dodaj element')
+        print('u - usun element')
+        print('e - wyjdz z edycji list')
+        inp = input()
+        if 'a' == inp:
+            ocena = float(input())
+            lst.append(ocena)
+            print('ocena dodana')
+        elif 'u' == inp:
+            ocena = float(input())
+            lst.remove(ocena)
+            print('ocena usunieta')
+        elif 'e' == inp:
+            break
+        else:
+            print("Nie ma takiej komendy")
+
+
+def dodaj_nowe_oceny(dc):
+    print("Edytuj oceny")
+    print("Matematyka - a")
+    print("Angielski - b")
+    print("Polski - c")
+    inp = input()
+    if inp == 'a':
+        edycja_listy(dc['matematyka'])
+    elif inp == 'b':
+        edycja_listy(dc['angielski'])
+    elif inp == 'c':
+        edycja_listy(dc['polski'])
+    print("dodaj_nowe_oceny - zakonczylo dzialnie")
+
+while True:
+    print("==="25)
+    print("e - wyjdź z programu")
+    print("i - informacje o książce")
+
+    print("ed - edytuj dane")
+    print("oc - edytuj oceny")
+    print("==="25)
+    inp = input().lower()
+    if 'e' == inp:
+        break
+
+    elif 'i' == inp:
+        inf(uczen)
+    elif 'ed' == inp:
+        edycja(uczen)
+    elif 'oc' == inp:
+        dodaj_nowe_oceny(uczen)
+    else:
+        print("Program zkonczyl dziłanie")
+        break
+#----------------------------- 
+class ksiazka:
+
+wybor = int(input("Wybierz numer informacji do edycji (1-3), lub 0 aby zakończyć: "))
+    if wybor == 1:
+                    nowy_tytul = input("Podaj nowy tytuł: ")
+                    ksiazka['tytul'] = nowy_tytul
+    elif wybor == 2:
+                    nowy_autor = input("Podaj nowego autora: ")
+                    ksiazka['autor'] = nowy_autor
+    elif wybor == 3:
+                    nowy_rok = int(input("Podaj nowy rok wydania: "))
+                    ksiazka['rok_wydania'] = nowy_rok
+    elif wybor == 0:
+                    print("Edycja zakończona.")
+    
+
+    else:
+                    print("Nieprawidłowy numer książki.")
+
+    def usun_ksiazke(self, numer):
+        if 1 <= numer <= len(self.ksiazki):
+            del self.ksiazki[numer - 1]
+            print("Książka została usunięta.")
+        else:
+            print("Nieprawidłowy numer książki.")
+
+
+Przykłady użycia:
+moja_biblioteka = Biblioteka()
+
+moja_biblioteka.dodaj_ksiazke("Wiedźmin", "Andrzej Sapkowski", 1993)
+moja_biblioteka.dodaj_ksiazke("Harry Potter", "J.K. Rowling", 1997)
+
+moja_biblioteka.wyswietl_ksiazki()
+
+moja_biblioteka.edytuj_ksiazke(1)
+
+moja_biblioteka.wyswietl_ksiazki()
+
+moja_biblioteka.usun_ksiazke(2)
+
+moja_biblioteka.wyswietl_ksiazki()
+
+print(f"Aktualne informacje o książce {ksiazka['tytul']}:")
+            print(f"1. Tytuł: {ksiazka['tytul']}")
+            print(f"2. Autor: {ksiazka['autor']}")
+            print(f"3. Rok wydania: {ksiazka['rok_wydania']}")
+
+            wybor = int(input("Wybierz numer informacji do edycji (1-3), lub 0 aby zakończyć: "))
+
+            if wybor == 1:
+                nowy_tytul = input("Podaj nowy tytuł: ")
+                ksiazka['tytul'] = nowy_tytul
+            elif wybor == 2:
+                nowy_autor = input("Podaj nowego autora: ")
+                ksiazka['autor'] = nowy_autor
+            elif wybor == 3:
+                nowy_rok = int(input("Podaj nowy rok wydania: "))
+                ksiazka['rok_wydania'] = nowy_rok
+            elif wybor == 0:
+                print("Edycja zakończona.")
+            else:
+                print("Nieprawidłowy numer. Spróbuj ponownie.")
+
+        else:
+            print("Nieprawidłowy numer książki.")
+
+    def usun_ksiazke(self, numer):
+        if 1 <= numer <= len(self.ksiazki):
+            del self.ksiazki[numer - 1]
+            print("Książka została usunięta.")
+        else:
+            print("Nieprawidłowy numer książki.")
